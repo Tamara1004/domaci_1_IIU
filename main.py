@@ -51,3 +51,17 @@ def update_user(user_id):
     user.email = data['email']
     db.session.commit()
     return jsonify({'message': 'User updated successfully'})
+
+@app.route('/users/<user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'message': 'User not found'})
+    
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({'message': 'User deleted successfully'})
+
+if __name__ == '__main__':
+    db.create_all()
+    app.run(debug=True)
