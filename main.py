@@ -39,3 +39,15 @@ def create_user():
     db.session.add(user)
     db.session.commit()
     return jsonify({'message': 'User created successfully'})
+
+@app.route('/users/<user_id>', methods=['PUT'])
+def update_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'message': 'User not found'})
+    
+    data = request.get_json()
+    user.ime = data['ime']
+    user.email = data['email']
+    db.session.commit()
+    return jsonify({'message': 'User updated successfully'})
