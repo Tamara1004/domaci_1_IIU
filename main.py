@@ -29,3 +29,13 @@ def get_user(user_id):
         return jsonify({'id': user.id, 'ime': user.ime, 'email': user.email})
     else:
         return jsonify({'message': 'User not found'})
+
+@app.route('/users', methods=['POST'])
+def create_user():
+    data = request.get_json()
+    ime = data['ime']
+    email = data['email']
+    user = User(ime, email)
+    db.session.add(user)
+    db.session.commit()
+    return jsonify({'message': 'User created successfully'})
