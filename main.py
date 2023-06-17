@@ -21,3 +21,11 @@ def get_users():
     for user in users:
         result.append({'id': user.id, 'ime': user.ime, 'email': user.email})
     return jsonify(result)
+
+@app.route('/users/<user_id>', methods=['GET'])
+def get_user(user_id):
+    user = User.query.get(user_id)
+    if user:
+        return jsonify({'id': user.id, 'ime': user.ime, 'email': user.email})
+    else:
+        return jsonify({'message': 'User not found'})
